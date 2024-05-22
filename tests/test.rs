@@ -3,11 +3,6 @@ use tokio::time::Duration;
 use tokio::time::sleep;
 use tokio_too_busy::*;
 
-#[derive(Hash)]
-struct Person {
-    name: String,
-}
-
 #[tokio::test(flavor = "multi_thread", worker_threads = 1)]
 async fn test_too_busy() {
     let too_busy = TooBusy::builder()
