@@ -43,19 +43,28 @@ impl TooBusyBuilder {
     }
 
     pub fn low_watermark(mut self, low_watermark: u32) -> TooBusyBuilder {
-        assert!(low_watermark < self.high_watermark, "low_watermark must be lower than high_watermark!");
+        assert!(
+            low_watermark < self.high_watermark,
+            "low_watermark must be lower than high_watermark!"
+        );
         self.low_watermark = low_watermark;
         self
     }
 
     pub fn high_watermark(mut self, high_watermark: u32) -> TooBusyBuilder {
-        assert!(high_watermark > self.low_watermark, "high_watermark must be greater than low_watermark!");
+        assert!(
+            high_watermark > self.low_watermark,
+            "high_watermark must be greater than low_watermark!"
+        );
         self.high_watermark = high_watermark;
         self
     }
 
     pub fn ewma_alpha(mut self, ewma_alpha: f32) -> TooBusyBuilder {
-        assert!(ewma_alpha > 0.0 && ewma_alpha < 1.0, "ewma_alpha must be between the range (0, 1)!");
+        assert!(
+            ewma_alpha > 0.0 && ewma_alpha < 1.0,
+            "ewma_alpha must be between the range (0, 1)!"
+        );
         self.ewma_alpha = ewma_alpha;
         self
     }
@@ -92,13 +101,17 @@ mod tests {
     #[test]
     #[should_panic]
     fn too_busy_builder_invalid_low_watermark() {
-        TooBusyBuilder::default().high_watermark(90).low_watermark(90);
+        TooBusyBuilder::default()
+            .high_watermark(90)
+            .low_watermark(90);
     }
 
     #[test]
     #[should_panic]
     fn too_busy_builder_invalid_high_watermark() {
-        TooBusyBuilder::default().low_watermark(90).high_watermark(90);
+        TooBusyBuilder::default()
+            .low_watermark(90)
+            .high_watermark(90);
     }
 
     #[test]

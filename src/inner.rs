@@ -75,7 +75,8 @@ impl LoadFeeder {
         let mut latest_total_busy_accumulated = ((0..num_workers as usize)
             .map(|worker| metrics.worker_total_busy_duration(worker))
             .sum::<Duration>()
-            / num_workers).as_millis();
+            / num_workers)
+            .as_millis();
 
         loop {
             let _ = interval.tick().await;
@@ -87,11 +88,14 @@ impl LoadFeeder {
             let total_busy_accumulated = ((0..num_workers as usize)
                 .map(|worker| metrics.worker_total_busy_duration(worker))
                 .sum::<Duration>()
-                / num_workers).as_millis();
+                / num_workers)
+                .as_millis();
 
-            let total_busy_since_last_iteration = total_busy_accumulated - latest_total_busy_accumulated;
+            let total_busy_since_last_iteration =
+                total_busy_accumulated - latest_total_busy_accumulated;
             latest_total_busy_accumulated = total_busy_accumulated;
-            ratio_busy_ewma = self.calculate_ratio_busy_ewma(total_busy_since_last_iteration, ratio_busy_ewma);
+            ratio_busy_ewma =
+                self.calculate_ratio_busy_ewma(total_busy_since_last_iteration, ratio_busy_ewma);
 
             too_busy_shared
                 .ratio_busy_ewma
@@ -106,8 +110,6 @@ impl LoadFeeder {
         );
         (self.ewma_alpha * ratio_busy_ewma) + ((1.0 - self.ewma_alpha) * ratio_busy)
     }
-
-    
 }
 
 #[cfg(test)]

@@ -1,6 +1,6 @@
 use std::thread::sleep as blocking_sleep;
-use tokio::time::Duration;
 use tokio::time::sleep;
+use tokio::time::Duration;
 use tokio_too_busy::*;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 1)]
@@ -23,7 +23,7 @@ async fn test_too_busy() {
             blocking_sleep(Duration::from_millis(500));
             sleep(Duration::from_millis(250)).await;
             if too_busy_cloned.eval() {
-                break
+                break;
             }
         }
     });
@@ -40,7 +40,7 @@ async fn test_too_busy() {
             blocking_sleep(Duration::from_millis(250));
             sleep(Duration::from_millis(250)).await;
             if !too_busy_cloned.eval() {
-                break
+                break;
             }
         }
     });

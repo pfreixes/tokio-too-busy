@@ -1,10 +1,10 @@
 use axum::{
-    routing::get,
-    http::StatusCode,
-    Router,
-    response::{IntoResponse, Response},
-    middleware::{self, Next},
     extract::{Request, State},
+    http::StatusCode,
+    middleware::{self, Next},
+    response::{IntoResponse, Response},
+    routing::get,
+    Router,
 };
 use tokio::time::Duration;
 use tokio_too_busy::*;
@@ -16,7 +16,7 @@ struct AppState {
 
 async fn my_middleware(State(state): State<AppState>, request: Request, next: Next) -> Response {
     if state.too_busy.eval() {
-        return (StatusCode::SERVICE_UNAVAILABLE, "Server is too busy").into_response()
+        return (StatusCode::SERVICE_UNAVAILABLE, "Server is too busy").into_response();
     }
     next.run(request).await
 }
@@ -25,7 +25,6 @@ async fn my_middleware(State(state): State<AppState>, request: Request, next: Ne
 async fn root() -> &'static str {
     "Hello, World!"
 }
-
 
 #[tokio::main(flavor = "multi_thread", worker_threads = 1)]
 async fn main() {
