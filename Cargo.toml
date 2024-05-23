@@ -2,6 +2,10 @@
 name = "tokio-too-busy"
 version = "0.1.0"
 edition = "2021"
+description = "Identify when the Tokio workers are too busy to handle more work"
+license = "MIT"
+repository = "https://github.com/pfreixes/tokio-too-busy"
+authors = ["pfreixes"]
 
 [dependencies]
 tokio = { version = "1.0", features = ["rt", "rt-multi-thread", "time"] }
