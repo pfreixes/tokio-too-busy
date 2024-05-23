@@ -61,7 +61,7 @@
 //! Tokio too busy leverages the [worker_total_busy_duration] interface provided by the Tokio [Runtime] for knowledge.
 //! and its only available when Tokio is compiled using the following flags ```RUSTFLAGS="--cfg tokio_unstable"```.
 //!
-//! Busy ratio is calculated by averaging the busy duration of all workers since latest iteration and using an 
+//! Busy ratio is calculated by averaging the busy duration of all workers since latest iteration and using an
 //! exponential moving average (EWMA).
 //!
 //! [examples]: https://github.com/pfreixes/tokio-too-busy/tree/main/examples
@@ -160,7 +160,7 @@ impl TooBusyBuilder {
         self.high_watermark = high_watermark;
         self
     }
-    /// Set the alpha value for the EWMA calculation. 
+    /// Set the alpha value for the EWMA calculation.
     ///
     /// By default, it is 0.1 (10%) for having quick reactions to changes. If you want to smooth the changes
     /// you can set a higher value.
