@@ -21,7 +21,6 @@ async fn my_middleware(State(state): State<AppState>, request: Request, next: Ne
     next.run(request).await
 }
 
-// basic handler that responds with a static string
 async fn root() -> &'static str {
     "Hello, World!"
 }

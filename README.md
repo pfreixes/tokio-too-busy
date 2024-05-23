@@ -8,6 +8,26 @@ In the example below, a `TooBusy` is built and used to evaluate the busy ratio o
 and progressively reject requests when the busy ratio goes above the low watermark threshold:
 
 ```rust
+use axum::{
+    extract::{Request, State},
+    http::StatusCode,
+    middleware::{self, Next},
+    response::{IntoResponse, Response},
+    routing::get,
+    Router,
+};
+use tokio::time::Duration;
+use tokio_too_busy::*;
+
+#[derive(Clone)]
+struct AppState {
+    too_busy: TooBusy,
+}
+
+async fn root() -> &'static str {
+    "Hello, World!"
+}
+
 async fn my_middleware(State(state): State<AppState>, request: Request, next: Next) -> Response {
    if state.too_busy.eval() {
        return (StatusCode::SERVICE_UNAVAILABLE, "Server is too busy").into_response();
@@ -35,5 +55,3 @@ async fn main() {
   axum::serve(listener, app).await.unwrap();
 }
  ```
-
-Check the full [http example](./examples/http_server.rs)
