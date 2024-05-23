@@ -8,12 +8,32 @@
 //! [evaluate][TooBusy::eval] the busy ratio of the Tokio workers and progressively reject requests
 //! when the busy ratio goes above the [low watermark][TooBusyBuilder::low_watermark] threshold:
 //! ```
+//!use axum::{
+//!   extract::{Request, State},
+//!   http::StatusCode,
+//!   middleware::{self, Next},
+//!   response::{IntoResponse, Response},
+//!   routing::get,
+//!   Router,
+//!};
+//!use tokio::time::Duration;
+//!use tokio_too_busy::*;
+//!
+//!#[derive(Clone)]
+//!struct AppState {
+//!    too_busy: TooBusy,
+//!}
+//!
 //!async fn my_middleware(State(state): State<AppState>, request: Request, next: Next) -> Response {
 //!
 //!   if state.too_busy.eval() {
 //!       return (StatusCode::SERVICE_UNAVAILABLE, "Server is too busy").into_response();
 //!   }
 //!   next.run(request).await
+//!}
+//!
+//!async fn root() -> &'static str {
+//!    "Hello, World!"
 //!}
 //!
 //!#[tokio::main(flavor = "multi_thread", worker_threads = 1)]
